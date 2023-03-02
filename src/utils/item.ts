@@ -118,6 +118,11 @@ export const getSummedTokenAndIdentifierAmounts = ({
     };
   }, {});
 
+  console.log(
+    "getSummedTokenAndIdentifierAmounts: ",
+    JSON.stringify(tokenAndIdentifierToSummedAmount, null, 2)
+  );
+
   return tokenAndIdentifierToSummedAmount;
 };
 

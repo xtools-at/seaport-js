@@ -250,7 +250,7 @@ export const mapOrderAmountsFromUnitsToFill = (
     ? unitsToFillBasisPoints
     : remainingOrderPercentageToBeFilled;
 
-  return {
+  const ret = {
     parameters: {
       ...order.parameters,
       offer: order.parameters.offer.map((item) => ({
@@ -272,6 +272,11 @@ export const mapOrderAmountsFromUnitsToFill = (
     },
     signature: order.signature,
   };
+
+  console.log("mapOrderAmountsFromUnitsToFill > offer: ", JSON.stringify(ret.parameters.offer, null, 2));
+  console.log("mapOrderAmountsFromUnitsToFill > consideration: ", JSON.stringify(ret.parameters.consideration, null, 2));
+
+  return ret;
 };
 
 export const generateRandomSalt = () => {
