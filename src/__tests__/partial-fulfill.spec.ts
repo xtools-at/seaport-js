@@ -150,14 +150,29 @@ describeWithFixture(
         it("ERC1155 <=> ETH doesn't fail due to rounding error", async () => {
           const { seaport, testErc1155 } = fixture;
 
+          const unitsForSale = "3";
+          const pricePerUnit = "3.1415926535897"; // 3.14159265358979323
+          const platformFeePoints = 250;
+
           // maker creates partially fillable listing with amount of 3
           standardCreateOrderInput.offer = [
             {
               itemType: ItemType.ERC1155,
               token: testErc1155.address,
-              amount: "3",
+              amount: unitsForSale,
               identifier: nftId,
             },
+          ];
+
+          // calculate total price (price per unit * units for sale) and fees
+          standardCreateOrderInput.consideration = [
+            {
+              amount: parseEther(pricePerUnit).mul(unitsForSale).toString(),
+              recipient: offerer.address,
+            },
+          ];
+          standardCreateOrderInput.fees = [
+            { recipient: zone.address, basisPoints: platformFeePoints },
           ];
 
           const { executeAllActions } = await seaport.createOrder(
